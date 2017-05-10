@@ -30,12 +30,12 @@ class App extends Component {
 
     location.href = "#submit";
 
-    var that  = this;
-    var codes  = this.state.codes;
+    var that   = this;
+    var codes  = this.state.codes.replace(/,$/,'');
     var format = this.state.format;
     var size   = this.state.size;
 
-    console.log(codes, format);
+    //console.log(codes, format);
 
     fetch(server+'/generatebarcodes', {
       method: 'POST',
@@ -86,11 +86,21 @@ class App extends Component {
       <div className="App">
         <div className="no-print">
           <div className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h2>Barcode Master</h2>
+
+            <div className="block-left">
+              <h2 className="vertical-center">Barcode Master</h2>
+            </div>
+
+            <div className="block-center"></div>
+
+            <div className="block-right">
+              <img src={logo} className="App-logo" alt="logo" />
+            </div>
+
           </div>
+
           <p className="App-intro">
-            Please write the codes separated by commas.
+            Please write or paste the codes separated by commas.
           </p>
           <form onSubmit={this.handleSubmit}>
             <div className="container">

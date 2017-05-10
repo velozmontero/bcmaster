@@ -4,14 +4,41 @@
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 30px;
 }
 
 .App-header {
+  text-align: right;
   background-color: #222;
-  height: 150px;
-  padding: 20px;
+  height: 30px;
+  padding: 10px;
   color: white;
+}
+
+.block-left {
+  height: 100%;
+  float: left;
+  text-align: left;
+  width: 30%;
+}
+
+.block-center {
+  height: 100%;
+  float: left;
+  text-align: center;
+  width: 40%;
+}
+
+.block-right {
+  height: 100%;
+  float: left;
+  text-align: right;
+  width: 30%;
+}
+
+.vertical-center {
+  vertical-align: middle;
+  margin: 0;
 }
 
 .App-intro {
@@ -45,10 +72,9 @@ button {
 }
 
 button:hover{
-  background-color: #61dafb;
+  background-color: #000;
   color: #fff;
   cursor: pointer;
-  border-color: #3f51b5;
 }
 
 select,input {
