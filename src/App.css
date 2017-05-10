@@ -1,0 +1,93 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+textarea {
+  width: 30%;
+  padding: 1em;
+  font-size: 20px;
+  border-radius:10px;
+  text-align: center;
+  height: 300px;
+}
+
+button {
+  font-size: 20px;
+  margin: 20px;
+  border: solid 2px #000;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius:10px;
+  padding: 10px;
+  width: 150px;
+}
+
+button:hover{
+  background-color: #61dafb;
+  color: #fff;
+  cursor: pointer;
+  border-color: #3f51b5;
+}
+
+select,input {
+  border: 2px solid #000;
+  border-radius: 5px;
+  padding: 1.5px;
+  margin: 10px;
+}
+
+.container {
+  width: 30%;
+  height: 2em;
+  padding: 1em;
+  margin: 0 auto;
+}
+
+.barcode-container {
+  margin: 0 auto;
+}
+
+.barcode-img {
+  padding: 15px !important;
+}
+
+.range {
+  margin: 0 auto;
+  width: 50%;
+  padding: 40px;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media print
+{
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
