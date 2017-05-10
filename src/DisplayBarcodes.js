@@ -14,7 +14,8 @@ class DisplayBarcodes extends Component {
   render() {
     console.log(this.props.barcodes);
     var that = this;
-    var component = (this.props.barcodes.length > 0) ? this.props.barcodes.map(function(barcode){return <BarcodeImage key={uuidV1()} barcode={barcode} server={that.props.server}/>})
+
+    var component = (this.props.barcodes.length > 0) ? this.props.barcodes.map(function(barcode){return <BarcodeImage key={uuidV1()} barcode={barcode.code} info={barcode.info} server={that.props.server}/>})
     : null;
     var width = this.state.value;
     return (

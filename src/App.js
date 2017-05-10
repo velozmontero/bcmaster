@@ -12,6 +12,7 @@ class App extends Component {
       codes: '',
       format: 'upca',
       size:{h:15, w:65},
+      info:{size:'',style:'',color:'',price:'$ .'},
       barcodes:[]
     };
     this.handleChange = this.handleChange.bind(this);
@@ -25,16 +26,17 @@ class App extends Component {
   }
 
   handleSubmit(event) {
-    //alert('Barcodes Created' + this.state.codes);
     event.preventDefault();
-
-    location.href = "#submit";
 
     var that   = this;
     var codes  = this.state.codes.replace(/,$/,'');
     var format = this.state.format;
     var size   = this.state.size;
+    var info   = this.state.info;
 
+    if(!info.size || !info.style || !info.color || !(/\d/g).test(info.price)){
+      return alert('Complete Style Inormation should be provided');
+    }
     //console.log(codes, format);
 
     fetch(server+'/generatebarcodes', {
@@ -51,7 +53,11 @@ class App extends Component {
     }).then((response) => response.json())
       .then((response) => {
         console.log(response);
-        var barcodes = that.state.barcodes.concat(response.codes);
+        location.href = "#submit";
+
+        var verifiedcodes = response.codes.map(code=>{return {info:JSON.parse(JSON.stringify(info)),code:code}});
+
+        var barcodes = that.state.barcodes.concat(verifiedcodes);
         that.setState({
           barcodes: barcodes
         });
@@ -79,6 +85,22 @@ class App extends Component {
 
   handlePrint(){
     window.print();
+  }
+
+  onInfoChange(size,style,color,price){
+    price = price.replace(/\D/g,'');
+    var priceFixed = [price.slice(0, price.length - 2), '.', price.slice(price.length - 2)].join('');
+
+    console.log(price);
+    var info = Object.assign(this.state.info, {
+      size: size,
+      style: style.toUpperCase(),
+      color: color.toUpperCase(),
+      price: '$'+priceFixed
+    });
+    this.setState({
+      info: info
+    })
   }
 
   render() {
@@ -110,13 +132,39 @@ class App extends Component {
                 <option value="upce">UPC-E</option>
                 <option value="upcecomposite">UPC-E Composite</option>
               </select>
-
               <span>H</span>
               <input value={this.state.size.h} onChange={(e)=>this.onSizeChange(e.target.value,this.state.size.w)} min={1} max={100} type="number" />
-
               <span>W</span>
               <input value={this.state.size.w} onChange={(e)=>this.onSizeChange(this.state.size.h,e.target.value)} min={1} max={100} type="number" />
+            </div>
 
+            <div className="container">
+              <select
+                onChange={(e)=>this.onInfoChange(e.target.value,this.state.info.style,this.state.info.color,this.state.info.price)}
+                name="format"
+                value={this.state.info.size}>
+                <option value="">-</option>
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+                <option value="1X">1X</option>
+                <option value="2X">2X</option>
+                <option value="3X">3X</option>
+              </select>
+
+              <input value={this.state.info.style}  onChange={(e)=>this.onInfoChange(this.state.info.size,e.target.value,this.state.info.color,this.state.info.price)}
+              type="text" placeholder="Style"/>
+
+              <input value={this.state.info.color}
+              onChange={(e)=>this.onInfoChange(this.state.info.size,this.state.info.style,e.target.value,this.state.info.price)}
+              type="text" placeholder="Color"/>
+
+              <input value={this.state.info.price}
+              onChange={(e)=>this.onInfoChange(this.state.info.size,this.state.info.style,this.state.info.color,e.target.value)}
+              type="text" placeholder="Price"/>
             </div>
 
             <textarea onChange={codes=>this.handleChange(codes)} name="text" value={this.state.codes} placeholder="Enter Codes Here">
@@ -127,7 +175,8 @@ class App extends Component {
             <button onClick={(e)=>this.handlePrint()} name="submit">Print</button>
           </form>
         </div>
-        <DisplayBarcodes barcodes={this.state.barcodes} server={server} />
+
+        <DisplayBarcodes info={this.state.info} barcodes={this.state.barcodes} server={server} />
 
       </div>
     );
