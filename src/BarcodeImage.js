@@ -2,9 +2,16 @@ import React, { Component } from 'react';
 import './App.css';
 
 class BarcodeImage extends Component {
+  constructor(props) {
+    super(props);
+    this.remove = this.remove.bind(this);
+  }
+  remove(){
+    this.props.remove(this.props.id);
+  }
   render() {
     return (
-      <div className="barcode-block">
+      <div className="barcode-block" onClick={()=>{this.remove()}}>
         <div className="info-wrapper">
           <div className="info">{this.props.info.size}</div>
           <div className="info">{this.props.info.style}</div>

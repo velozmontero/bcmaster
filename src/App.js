@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import DisplayBarcodes from './DisplayBarcodes';
 import './App.css';
 
+const uuidV1  = require('uuid/v1');
 const server = 'http://localhost:5000';
 
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
     this.onSizeChange = this.onSizeChange.bind(this);
   }
 
@@ -55,7 +57,7 @@ class App extends Component {
         console.log(response);
         location.href = "#submit";
 
-        var verifiedcodes = response.codes.map(code=>{return {info:JSON.parse(JSON.stringify(info)),code:code}});
+        var verifiedcodes = response.codes.map(code=>{return {id:uuidV1(),info:JSON.parse(JSON.stringify(info)),code:code}});
 
         var barcodes = that.state.barcodes.concat(verifiedcodes);
         that.setState({
@@ -101,6 +103,12 @@ class App extends Component {
     this.setState({
       info: info
     })
+  }
+
+  handleRemove(id){
+    var barcodes = this.state.barcodes.filter(item => item.id !== id);
+
+    this.setState({barcodes: barcodes});
   }
 
   render() {
@@ -176,7 +184,7 @@ class App extends Component {
           </form>
         </div>
 
-        <DisplayBarcodes info={this.state.info} barcodes={this.state.barcodes} server={server} />
+        <DisplayBarcodes info={this.state.info} barcodes={this.state.barcodes} server={server} remove={this.handleRemove}/>
 
       </div>
     );
