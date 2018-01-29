@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import BarcodeImage from './BarcodeImage';
+import Barcode from './Barcode';
 import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
-import './App.css';
-
-const uuidV1  = require('uuid/v1');
 
 class DisplayBarcodes extends Component {
   constructor(props) {
@@ -15,8 +12,20 @@ class DisplayBarcodes extends Component {
     console.log(this.props.barcodes);
     var that = this;
 
-    var component = (this.props.barcodes.length > 0) ? this.props.barcodes.map(function(barcode,i){
-      return <BarcodeImage id={barcode.id} key={uuidV1()} barcode={barcode.code} info={barcode.info} server={that.props.server} remove={that.props.remove} />})
+    var barcode = (this.props.barcodes.length > 0) ? this.props.barcodes.map((barcode,i) => {
+      console.log('barcode ',barcode);
+      return (
+        <Barcode 
+          id={barcode.id} 
+          key={barcode.id} 
+          barcode={barcode.code} 
+          info={barcode.info} 
+          server={that.props.server} 
+          remove={that.props.remove} 
+          size={this.props.size}
+          format={this.props.format}
+        />
+      )})
     : null;
     var width = this.state.value;
     return (
@@ -31,7 +40,7 @@ class DisplayBarcodes extends Component {
         </div>
 
         <div className="barcode-container" style={{width:width+'%'}}>
-          {component}
+          {barcode}
         </div>
 
       </div>
